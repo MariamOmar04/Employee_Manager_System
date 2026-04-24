@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>StaffHub — Mon Salaire</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/style.css">
+  <style>
+    .salary-hero {
+      background: linear-gradient(135deg, #0f1729, #1e5fba);
+      border-radius: var(--radius); padding: 40px; color: #fff;
+      margin-bottom: 24px; text-align: center;
+    }
+    .salary-hero-label { font-size: 14px; opacity: .7; margin-bottom: 10px; text-transform: uppercase; letter-spacing: .1em; }
+    .salary-hero-amount { font-size: 56px; font-weight: 800; line-height: 1; }
+    .salary-hero-sub { font-size: 14px; opacity: .6; margin-top: 8px; }
+    .salary-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-bottom: 24px; }
+    .salary-item {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); text-align: center;
+    }
+    .salary-item-label  { font-size: 12px; color: var(--text-sub); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+    .salary-item-amount { font-size: 28px; font-weight: 800; margin: 10px 0 4px; }
+    .salary-item-sub    { font-size: 12px; color: var(--text-sub); }
+    .breakdown-row { display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid var(--border); }
+    .breakdown-row:last-child { border-bottom:none; }
+    .breakdown-label { font-weight:600; font-size:14px; }
+    .breakdown-val   { font-weight:800; font-size:15px; }
+  </style>
+</head>
+<body>
+<div class="app-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-box">S</div>
+      <div><div class="logo-name">StaffHub</div><div class="logo-sub">Espace Employé</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">MON ESPACE</div>
+      <button class="nav-btn" onclick="location.href='dashboard.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Tableau de Bord</button>
+      <button class="nav-btn" onclick="location.href='presence.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Ma Présence</button>
+      <button class="nav-btn" onclick="location.href='leave.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Mes Congés</button>
+      <button class="nav-btn active" onclick="location.href='salary.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Mon Salaire</button>
+      <button class="nav-btn" onclick="location.href='meetings.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Mes Réunions</button>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="nav-btn" onclick="logout()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Déconnexion</button>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <div class="topbar-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Rechercher...">
+      </div>
+      <div class="topbar-right">
+        <div class="user-info">
+          <div class="avatar" id="userAvatar">SJ</div>
+          <div><div class="user-name" id="userName">—</div><div class="user-role" id="userPos">—</div></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="pages">
+      <div class="page active">
+
+        <div class="page-header">
+          <div><h1>Mon Salaire</h1><p>Détails de votre rémunération</p></div>
+        </div>
+
+        <!-- Héro montant mensuel total -->
+        <div class="salary-hero">
+          <div class="salary-hero-label">Salaire Mensuel Total</div>
+          <div class="salary-hero-amount" id="heroTotal">—</div>
+          <div class="salary-hero-sub">Salaire net + prime mensuelle</div>
+        </div>
+
+        <!-- 3 cartes : base / prime / annuel -->
+        <div class="salary-grid">
+          <div class="salary-item">
+            <div class="salary-item-label">Salaire de Base</div>
+            <div class="salary-item-amount" id="baseMonthly">—</div>
+            <div class="salary-item-sub">par mois</div>
+          </div>
+          <div class="salary-item" style="border-color:var(--green)">
+            <div class="salary-item-label">Prime Mensuelle</div>
+            <div class="salary-item-amount" id="bonusMonthly" style="color:var(--green)">—</div>
+            <div class="salary-item-sub">par mois</div>
+          </div>
+          <div class="salary-item" style="border-color:var(--primary)">
+            <div class="salary-item-label">Package Annuel</div>
+            <div class="salary-item-amount" id="totalAnnual" style="color:var(--primary)">—</div>
+            <div class="salary-item-sub">salaire + prime</div>
+          </div>
+        </div>
+
+        <!-- Détail fiche de paie -->
+        <div class="card">
+          <div class="card-title">📋 Détail de la Rémunération</div>
+          <div class="card-sub">Votre fiche de paie mensuelle</div>
+          <div style="margin-top:16px">
+            <div class="breakdown-row">
+              <span class="breakdown-label">Salaire brut mensuel</span>
+              <span class="breakdown-val" id="d-base">—</span>
+            </div>
+            <div class="breakdown-row">
+              <span class="breakdown-label">Prime mensuelle</span>
+              <span class="breakdown-val" style="color:var(--green)" id="d-bonus">—</span>
+            </div>
+            <div class="breakdown-row" style="background:var(--bg);margin:0 -22px;padding:14px 22px;border-radius:0 0 var(--radius) var(--radius)">
+              <span class="breakdown-label" style="font-size:16px">💰 Total mensuel</span>
+              <span class="breakdown-val" style="font-size:20px;color:var(--primary)" id="d-total">—</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Graphique salaire vs prime -->
+        <div class="card" style="margin-top:18px">
+          <div class="card-title">📊 Répartition de la Rémunération</div>
+          <div class="card-sub">Salaire de base vs prime</div>
+          <div style="max-width:320px;margin:16px auto 0">
+            <div class="chart-wrap" style="height:240px"><canvas id="chart-salary"></canvas></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<script>
+const user = JSON.parse(sessionStorage.getItem('user') || '{}')
+if (!user.employeeId) location.href = '../shared/login.html'
+
+document.getElementById('userName').textContent   = user.firstName + ' ' + user.lastName
+document.getElementById('userAvatar').textContent = (user.firstName?.[0]||'') + (user.lastName?.[0]||'')
+document.getElementById('userPos').textContent    = user.position || ''
+
+function logout () { sessionStorage.clear(); location.href = '../shared/login.html' }
+
+// Formater en euros
+function eur (n) { return n.toLocaleString('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:0}) }
+
+function loadSalary () {
+  // Les données viennent du sessionStorage (chargées lors du login)
+  const salary = user.salary || 0
+  const bonus  = user.bonus  || 0
+
+  const baseM  = salary / 12
+  const bonusM = bonus  / 12
+  const totalM = baseM + bonusM
+  const totalY = salary + bonus
+
+  document.getElementById('heroTotal').textContent    = eur(totalM)
+  document.getElementById('baseMonthly').textContent  = eur(baseM)
+  document.getElementById('bonusMonthly').textContent = eur(bonusM)
+  document.getElementById('totalAnnual').textContent  = eur(totalY)
+  document.getElementById('d-base').textContent       = eur(baseM)
+  document.getElementById('d-bonus').textContent      = eur(bonusM)
+  document.getElementById('d-total').textContent      = eur(totalM)
+
+  // Graphique donut
+  new Chart(document.getElementById('chart-salary'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Salaire de base', 'Prime'],
+      datasets: [{
+        data: [baseM, bonusM],
+        backgroundColor: ['#1e5fba', '#10b981'],
+        borderWidth: 0,
+        hoverOffset: 8,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      cutout: '60%',
+      plugins: {
+        legend: { position:'bottom', labels:{ font:{size:13}, usePointStyle:true, pointStyleWidth:10 } },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` ${ctx.label} : ${eur(ctx.raw)}`
+          }
+        }
+      }
+    }
+  })
+}
+
+loadSalary()
+</script>
+</body>
+</html>

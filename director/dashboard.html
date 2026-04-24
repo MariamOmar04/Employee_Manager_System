@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>StaffHub — Dashboard Directeur</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- ═══ SIDEBAR ════════════════════════════════════════════ -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-box">S</div>
+      <div>
+        <div class="logo-name">EMS</div>
+        <div class="logo-sub">Employee Manager</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section">MENU</div>
+      <button class="nav-btn active"       onclick="location.href='dashboard.html'">
+       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-no-axes-combined-icon lucide-chart-no-axes-combined"><path d="M12 16v5"/><path d="M16 14v7"/><path d="M20 10v11"/><path d="m22 3-8.646 8.646a.5.5 0 0 1-.708 0L9.354 8.354a.5.5 0 0 0-.707 0L2 15"/><path d="M4 18v3"/><path d="M8 14v7"/></svg>
+        Dashboard
+      </button>
+      <button class="nav-btn"              onclick="location.href='employees.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Employés
+      </button>
+      <button class="nav-btn"              onclick="location.href='attendance.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Présences
+      </button>
+      <button class="nav-btn"              onclick="location.href='leaves.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Congés
+      </button>
+      <button class="nav-btn"              onclick="location.href='meetings.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Réunions
+      </button>
+      <button class="nav-btn"              onclick="location.href='reports.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Rapports 
+      </button>
+    </nav>
+<div class="sidebar-footer"><button class="nav-btn" onclick="location.href='profile.html'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user-round-icon lucide-circle-user-round"><path d="M17.925 20.056a6 6 0 0 0-11.851.001"/><circle cx="12" cy="11" r="4"/><circle cx="12" cy="12" r="10"/></svg>
+     Profile </button></div>
+    <div class="sidebar-footer">
+      <button class="nav-btn" onclick="logout()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Déconnexion
+      </button>
+    </div>
+  </aside>
+
+  <!-- ═══ MAIN ════════════════════════════════════════════════ -->
+  <div class="main-area">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Rechercher...">
+      </div>
+      <div class="topbar-right">
+        <div class="user-info">
+          <div class="avatar" id="userAvatar">JD</div>
+          <div>
+            <div class="user-name" id="userName">—</div>
+            <div class="user-role">Directeur</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Contenu -->
+    <div class="pages">
+      <div class="page active">
+
+        <!-- En-tête -->
+        <div class="page-header">
+          <div>
+            <h1>Dashboard</h1>
+            <p>Bonjour <span id="welcome"></span>, voici ce qui se passe aujourd'hui.</p>
+          </div>
+        </div>
+
+        <!-- ── Stats ────────────────────────────────────────── -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div>
+              <div class="stat-label">Total Employés</div>
+              <div class="stat-val" id="s-total">—</div>
+              <div class="stat-hint hint-green">+12 ce mois</div>
+            </div>
+            <div class="stat-icon icon-blue"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2c38dd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-icon lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg></div>
+          </div>
+          <div class="stat-card">
+            <div>
+              <div class="stat-label">Actifs Aujourd'hui</div>
+              <div class="stat-val" id="s-active">—</div>
+              <div class="stat-hint hint-muted">présents</div>
+            </div>
+            <div class="stat-icon icon-green"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#06c649" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell-check-icon lucide-bell-check"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="m15 8 2 2 4-4"/><path d="M16.8607 4.4824A6 6 0 0 0 6 8C6 12.499 4.589 13.956 3.262 15.326"/><path d="M3.262 15.326A1 1 0 0 0 4 17H20A1 1 0 0 0 20.74 15.327C20.209 14.779 19.665 14.218 19.203 13.454"/></svg></div>
+          </div>
+          <div class="stat-card">
+            <div>
+              <div class="stat-label">En Congé</div>
+              <div class="stat-val" id="s-leave">—</div>
+              <div class="stat-hint hint-orange">+3 depuis hier</div>
+            </div>
+            <div class="stat-icon icon-orange"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFA500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-alarm-clock-off-icon lucide-alarm-clock-off"><path d="M6.87 6.87a8 8 0 1 0 11.26 11.26"/><path d="M19.9 14.25a8 8 0 0 0-9.15-9.15"/><path d="m22 6-3-3"/><path d="M6.26 18.67 4 21"/><path d="m2 2 20 20"/><path d="M4 4 2 6"/></svg></div>
+          </div>
+          <div class="stat-card">
+            <div>
+              <div class="stat-label">Demandes Pending</div>
+              <div class="stat-val" id="s-pending">—</div>
+              <div class="stat-hint hint-red">à traiter</div>
+            </div>
+            <div class="stat-icon icon-purple"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-icon lucide-clock"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          </div>
+        </div>
+
+        <!-- ── Graphiques ligne 1 ────────────────────────────── -->
+        <div class="charts-row">
+          <!-- Croissance -->
+          <div class="card chart-lg">
+            <div class="card-title">Croissance des Effectifs</div>
+            <div class="card-sub">Présences journalières — mois en cours</div>
+            <div style="position:relative;height:200px;width:100%"><div class="chart-wrap"><canvas id="chart-growth"></canvas></div></canvas></div>
+          </div>
+          <!-- Par département -->
+          <div class="card">
+            <div class="card-title">Par Département</div>
+            <div class="card-sub">Répartition des équipes</div>
+            <div style="position:relative;height:200px;width:100%"><div class="chart-wrap"><canvas id="chart-dept"></canvas></div></canvas></div>
+          </div>
+        </div>
+
+        <!-- ── Graphiques ligne 2 ────────────────────────────── -->
+        <div class="charts-row">
+          <!-- Présences semaine -->
+          <div class="card">
+            <div class="card-title">Présences de la Semaine</div>
+            <div class="card-sub">Présent / Distant / Absent</div>
+            <div style="position:relative;height:200px;width:100%"><div class="chart-wrap"><canvas id="chart-week"></canvas></div></canvas></div>
+          </div>
+          <!-- Statuts employés -->
+          <div class="card">
+            <div class="card-title">Statuts Employés</div>
+            <div class="card-sub">Répartition par statut</div>
+            <div style="position:relative;height:200px;width:100%"><div class="chart-wrap"><canvas id="chart-status"></canvas></div></canvas></div>
+          </div>
+        </div>
+
+        <!-- ── Employés récents ──────────────────────────────── -->
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <div class="card-title">Employés Récents</div>
+              <div class="card-sub">Les derniers membres de l'équipe</div>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="location.href='employees.html'">+ Ajouter</button>
+          </div>
+          <div class="table-wrap">
+            <table id="recent-table">
+              <thead>
+                <tr>
+                  <th>Employé</th>
+                  <th>Poste</th>
+                  <th>Département</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div><!-- /page -->
+    </div><!-- /pages -->
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<!-- Chart.js depuis CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+
+<script>
+// ── Utilitaires ─────────────────────────────────────────────
+const user = JSON.parse(sessionStorage.getItem('user') || '{}')
+
+function logout () {
+  sessionStorage.clear()
+  location.href = '../shared/login.html'
+}
+
+function badge (status) {
+  const map = { Active:'badge-active', 'On Leave':'badge-leave', Remote:'badge-remote' }
+  return `<span class="badge ${map[status] || ''}">${status}</span>`
+}
+
+function toast (msg, type = 'info') {
+  const el = document.getElementById('toast')
+  el.textContent = msg
+  el.className = 'show-' + type
+  setTimeout(() => el.className = '', 3000)
+}
+
+// ── Afficher l'utilisateur ───────────────────────────────────
+document.getElementById('userName').textContent = user.firstName + ' ' + user.lastName
+document.getElementById('userAvatar').textContent = (user.firstName?.[0] || '') + (user.lastName?.[0] || '')
+document.getElementById('welcome').textContent = user.firstName || ''
+
+// ── Palette de couleurs modernes ────────────────────────────
+const COLORS = ['#1e5fba','#8b5cf6','#10b981','#f59e0b','#ef4444','#06b6d4','#f97316']
+
+// ── Charger les données ──────────────────────────────────────
+async function loadDashboard () {
+  const stats = await window.api.getDashboardStats()
+
+  // Stats chiffres
+  document.getElementById('s-total').textContent   = stats.total
+  document.getElementById('s-active').textContent  = stats.active
+  document.getElementById('s-leave').textContent   = stats.onLeave
+  document.getElementById('s-pending').textContent = stats.pending
+
+  // Graphiques
+  drawGrowthChart()
+  drawDeptChart(stats.byDept)
+  drawWeekChart()
+  drawStatusChart(stats)
+
+  // Tableau employés récents
+  const tbody = document.querySelector('#recent-table tbody')
+  tbody.innerHTML = stats.recent.map(e => `
+    <tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="avatar" style="width:34px;height:34px;font-size:12px">${e.firstName[0]}${e.lastName[0]}</div>
+          <div>
+            <div style="font-weight:700">${e.firstName} ${e.lastName}</div>
+            <div style="font-size:12px;color:#64748b">${e.email}</div>
+          </div>
+        </div>
+      </td>
+      <td>${e.position}</td>
+      <td>${e.department}</td>
+      <td>${badge(e.status)}</td>
+    </tr>
+  `).join('')
+}
+
+// ── Graphique 1 : Présences du mois (Line) ──────────────────
+function drawGrowthChart () {
+  const canvas = document.getElementById('chart-growth')
+  new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels: ['S1 Lun','S1 Mar','S1 Mer','S1 Jeu','S1 Ven',
+               'S2 Lun','S2 Mar','S2 Mer','S2 Jeu','S2 Ven',
+               'S3 Lun','S3 Mar','S3 Mer','S3 Jeu','S3 Ven',
+               'S4 Lun','S4 Mar','S4 Mer','S4 Jeu','S4 Ven'],
+      datasets: [{
+        label: 'Présents',
+        data: [6,6,5,6,6, 6,5,6,6,5, 6,6,6,5,6, 5,6,6,6,6],
+        fill: true,
+        backgroundColor: 'rgba(59,130,246,0.10)',
+        borderColor: '#3b82f6',
+        borderWidth: 2.5,
+        tension: 0.4,
+        pointRadius: 3,
+        pointBackgroundColor: '#3b82f6',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2,
+        pointHoverRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#0f1729',
+          titleColor: '#fff',
+          bodyColor: '#94a3b8',
+          padding: 10,
+          cornerRadius: 8,
+          callbacks: { label: ctx => ' ' + ctx.parsed.y + ' présents' }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          border: { display: false },
+          ticks: { color: '#94a3b8', font: { size: 9, family: 'Plus Jakarta Sans' }, maxRotation: 45 }
+        },
+        y: {
+          min: 0,
+          max: 8,
+          grid: { color: '#f1f5f9' },
+          border: { display: false },
+          ticks: { color: '#94a3b8', font: { size: 11 }, stepSize: 2 }
+        }
+      }
+    }
+  })
+}
+
+// ── Graphique 2 : Par département (Doughnut) ─────────────────
+function drawDeptChart (byDept) {
+  const DEPT_COLORS = ['#3b82f6','#8b5cf6','#10b981','#f59e0b','#ef4444','#f97316','#94a3b8']
+  const canvas = document.getElementById('chart-dept')
+  new Chart(canvas, {
+    type: 'doughnut',
+    data: {
+      labels: byDept.map(d => d.department),
+      datasets: [{
+        data: byDept.map(d => d.total),
+        backgroundColor: DEPT_COLORS.slice(0, byDept.length),
+        borderWidth: 3,
+        borderColor: '#ffffff',
+        hoverOffset: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '64%',
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            font: { size: 11 },
+            color: '#64748b',
+            usePointStyle: true,
+            pointStyle: 'circle',
+            pointStyleWidth: 8,
+            padding: 12
+          }
+        },
+        tooltip: {
+          backgroundColor: '#0f1729',
+          titleColor: '#fff',
+          bodyColor: '#94a3b8',
+          padding: 10,
+          cornerRadius: 8,
+        }
+      }
+    }
+  })
+}
+
+// ── Graphique 3 : Présences semaine (Bar groupé) ─────────────
+function drawWeekChart () {
+  const canvas = document.getElementById('chart-week')
+  new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels: ['Lun','Mar','Mer','Jeu','Ven'],
+      datasets: [
+        { label: 'Présent', data: [6,6,5,6,6], backgroundColor: '#3b82f6',
+          borderRadius: 5, borderSkipped: false, barPercentage: 0.6, categoryPercentage: 0.7 },
+        { label: 'Distant', data: [1,0,1,0,1], backgroundColor: '#8b5cf6',
+          borderRadius: 5, borderSkipped: false, barPercentage: 0.6, categoryPercentage: 0.7 },
+        { label: 'Absent',  data: [1,2,2,2,1], backgroundColor: '#fbbf24',
+          borderRadius: 5, borderSkipped: false, barPercentage: 0.6, categoryPercentage: 0.7 },
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { usePointStyle: true, pointStyle: 'circle', pointStyleWidth: 8, font: { size: 11 }, color: '#64748b', padding: 14 }
+        },
+        tooltip: { backgroundColor: '#0f1729', titleColor: '#fff', bodyColor: '#94a3b8', padding: 10, cornerRadius: 8 }
+      },
+      scales: {
+        x: { grid: { display: false }, border: { display: false }, ticks: { color: '#94a3b8', font: { size: 12 } } },
+        y: { min: 0, max: 8, grid: { color: '#f1f5f9' }, border: { display: false }, ticks: { color: '#94a3b8', font: { size: 11 }, stepSize: 2 } }
+      }
+    }
+  })
+}
+
+// ── Graphique 4 : Statuts (Bar horizontal) ────────────────────
+function drawStatusChart (stats) {
+  const remote = Math.max(0, stats.total - stats.active - stats.onLeave)
+  const canvas = document.getElementById('chart-status')
+  new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels: ['Actifs', 'En Congé', 'Distants'],
+      datasets: [{
+        label: 'Employés',
+        data: [stats.active, stats.onLeave, remote],
+        backgroundColor: ['#10b981','#f59e0b','#8b5cf6'],
+        borderRadius: 6,
+        borderSkipped: false,
+        barThickness: 22,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { backgroundColor: '#0f1729', titleColor: '#fff', bodyColor: '#94a3b8', padding: 10, cornerRadius: 8 }
+      },
+      scales: {
+        x: { grid: { color: '#f1f5f9' }, border: { display: false }, ticks: { color: '#94a3b8', font: { size: 11 } } },
+        y: { grid: { display: false }, border: { display: false }, ticks: { color: '#374151', font: { size: 13, weight: '600' } } }
+      }
+    }
+  })
+}
+
+// ── Démarrer ─────────────────────────────────────────────────
+loadDashboard()
+</script>
+</body>
+</html>

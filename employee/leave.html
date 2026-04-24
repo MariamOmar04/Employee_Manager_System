@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>StaffHub — Mes Congés</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/style.css">
+  <style>
+    .leave-card {
+      background:var(--card); border:1px solid var(--border);
+      border-radius:var(--radius); padding:20px; margin-bottom:14px;
+      box-shadow:var(--shadow); transition:box-shadow .15s;
+    }
+    .leave-card:hover { box-shadow:var(--shadow-md); }
+    .leave-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+    .leave-type { font-weight:800; font-size:16px; }
+    .leave-dates{ font-size:13px; color:var(--text-sub); margin-bottom:10px; }
+    .leave-reason{ font-size:13px; color:var(--text-sub); font-style:italic; }
+    .leave-note { margin-top:10px; padding:10px 14px; background:var(--primary-lt); border-radius:9px; font-size:13px; color:var(--primary); font-weight:500; }
+    .tab-bar    { display:flex; gap:8px; margin-bottom:22px; }
+    .tab-btn    { padding:8px 20px; border-radius:20px; border:1.5px solid var(--border); background:var(--bg); font-family:inherit; font-size:13px; font-weight:600; cursor:pointer; transition:all .15s; }
+    .tab-btn.active { background:var(--primary); border-color:var(--primary); color:#fff; }
+  </style>
+</head>
+<body>
+<div class="app-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-box">S</div>
+      <div><div class="logo-name">StaffHub</div><div class="logo-sub">Espace Employé</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">MON ESPACE</div>
+      <button class="nav-btn" onclick="location.href='dashboard.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Tableau de Bord</button>
+      <button class="nav-btn" onclick="location.href='presence.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Ma Présence</button>
+      <button class="nav-btn active" onclick="location.href='leave.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Mes Congés</button>
+      <button class="nav-btn" onclick="location.href='salary.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Mon Salaire</button>
+      <button class="nav-btn" onclick="location.href='meetings.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Mes Réunions</button>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="nav-btn" onclick="logout()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Déconnexion</button>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <div class="topbar-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Rechercher...">
+      </div>
+      <div class="topbar-right">
+        <div class="user-info">
+          <div class="avatar" id="userAvatar">SJ</div>
+          <div><div class="user-name" id="userName">—</div><div class="user-role" id="userPos">—</div></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="pages">
+      <div class="page active">
+
+        <div class="page-header">
+          <div><h1>Mes Congés</h1><p>Demandez et suivez vos congés</p></div>
+          <button class="btn btn-primary" onclick="openModal()">+ Demander un Congé</button>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:24px">
+          <div class="stat-card">
+            <div><div class="stat-label">En attente</div><div class="stat-val" id="s-pending" style="color:var(--orange)">—</div></div>
+            <div class="stat-icon icon-orange">⏳</div>
+          </div>
+          <div class="stat-card">
+            <div><div class="stat-label">Approuvés</div><div class="stat-val" id="s-approved" style="color:var(--green)">—</div></div>
+            <div class="stat-icon icon-green">✅</div>
+          </div>
+          <div class="stat-card">
+            <div><div class="stat-label">Refusés</div><div class="stat-val" id="s-refused" style="color:var(--red)">—</div></div>
+            <div class="stat-icon icon-purple">❌</div>
+          </div>
+        </div>
+
+        <!-- Onglets -->
+        <div class="tab-bar">
+          <button class="tab-btn active" onclick="setTab('all',this)">Tous</button>
+          <button class="tab-btn" onclick="setTab('Pending',this)">⏳ En attente</button>
+          <button class="tab-btn" onclick="setTab('Approved',this)">✅ Approuvés</button>
+          <button class="tab-btn" onclick="setTab('Refused',this)">❌ Refusés</button>
+        </div>
+
+        <div id="leavesList"></div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal demande congé -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Demander un Congé</h3>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Type de congé *</label>
+        <select id="f-type">
+          <option>Annual Leave</option>
+          <option>Sick Leave</option>
+          <option>Maternity Leave</option>
+          <option>Paternity Leave</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date de début *</label>
+          <input type="date" id="f-start">
+        </div>
+        <div class="form-group">
+          <label>Date de fin *</label>
+          <input type="date" id="f-end">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Motif</label>
+        <textarea id="f-reason" placeholder="Expliquez brièvement la raison de votre congé..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="submitLeave()">Envoyer la Demande</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script>
+const user = JSON.parse(sessionStorage.getItem('user') || '{}')
+if (!user.employeeId) location.href = '../shared/login.html'
+
+document.getElementById('userName').textContent   = user.firstName + ' ' + user.lastName
+document.getElementById('userAvatar').textContent = (user.firstName?.[0]||'') + (user.lastName?.[0]||'')
+document.getElementById('userPos').textContent    = user.position || ''
+
+function logout () { sessionStorage.clear(); location.href = '../shared/login.html' }
+function toast (msg, type='info') {
+  const el = document.getElementById('toast')
+  el.textContent = msg; el.className = 'show-' + type
+  setTimeout(() => el.className = '', 3200)
+}
+function fmtDate (d) {
+  if (!d) return '—'
+  return new Date(d).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})
+}
+function daysBetween (a, b) {
+  return Math.max(1, Math.round((new Date(b)-new Date(a))/86400000)+1)
+}
+
+let allLeaves = []
+let currentTab = 'all'
+
+async function loadLeaves () {
+  allLeaves = await window.api.getMyLeaves(user.employeeId)
+  document.getElementById('s-pending').textContent  = allLeaves.filter(l=>l.status==='Pending').length
+  document.getElementById('s-approved').textContent = allLeaves.filter(l=>l.status==='Approved').length
+  document.getElementById('s-refused').textContent  = allLeaves.filter(l=>l.status==='Refused').length
+  renderList()
+}
+
+function setTab (tab, btn) {
+  currentTab = tab
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
+  btn.classList.add('active')
+  renderList()
+}
+
+function badge (s) {
+  const m = { Pending:'badge-pending', Approved:'badge-approved', Refused:'badge-refused' }
+  const l = { Pending:'⏳ En attente', Approved:'✅ Approuvé', Refused:'❌ Refusé' }
+  return `<span class="badge ${m[s]||''}">${l[s]||s}</span>`
+}
+
+function renderList () {
+  const list = currentTab === 'all' ? allLeaves : allLeaves.filter(l=>l.status===currentTab)
+  const el = document.getElementById('leavesList')
+  if (!list.length) { el.innerHTML = '<div class="empty">Aucune demande de congé.</div>'; return }
+
+  el.innerHTML = list.map(l => `
+    <div class="leave-card">
+      <div class="leave-head">
+        <div class="leave-type">${l.type}</div>
+        ${badge(l.status)}
+      </div>
+      <div class="leave-dates">
+        📅 Du <strong>${fmtDate(l.startDate)}</strong> au <strong>${fmtDate(l.endDate)}</strong>
+        — <strong>${daysBetween(l.startDate,l.endDate)} jour(s)</strong>
+      </div>
+      ${l.reason ? `<div class="leave-reason">💬 ${l.reason}</div>` : ''}
+      ${l.directorNote ? `<div class="leave-note">🗒️ Note du directeur : ${l.directorNote}</div>` : ''}
+    </div>
+  `).join('')
+}
+
+function openModal () {
+  const today = new Date().toISOString().split('T')[0]
+  document.getElementById('f-start').value  = today
+  document.getElementById('f-end').value    = today
+  document.getElementById('f-reason').value = ''
+  document.getElementById('f-type').value   = 'Annual Leave'
+  document.getElementById('modal').classList.add('open')
+}
+
+function closeModal () {
+  document.getElementById('modal').classList.remove('open')
+}
+
+async function submitLeave () {
+  const data = {
+    employeeId : user.employeeId,
+    type       : document.getElementById('f-type').value,
+    startDate  : document.getElementById('f-start').value,
+    endDate    : document.getElementById('f-end').value,
+    reason     : document.getElementById('f-reason').value.trim(),
+  }
+  if (!data.startDate || !data.endDate) { toast('Les dates sont obligatoires.', 'error'); return }
+  if (new Date(data.endDate) < new Date(data.startDate)) { toast('La date de fin doit être après le début.', 'error'); return }
+
+  const res = await window.api.requestLeave(data)
+  if (res.ok) {
+    closeModal()
+    toast('Demande envoyée avec succès ✓', 'success')
+    loadLeaves()
+  } else {
+    toast('Erreur : ' + res.message, 'error')
+  }
+}
+
+loadLeaves()
+</script>
+</body>
+</html>

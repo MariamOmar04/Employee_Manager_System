@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>StaffHub — Connexion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ── Reset & base ────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      height: 100vh; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #0f1729 0%, #1a2a4a 40%, #16213e 70%, #0f1729 100%);
+      overflow: hidden; position: relative;
+    }
+
+    /* ── Cercles décoratifs animés ────────────────────────────── */
+    .orb {
+      position: absolute; border-radius: 50%; filter: blur(100px); opacity: .15;
+      animation: float 12s ease-in-out infinite;
+    }
+    .orb1 { width:680px; height:680px; background:#1e5fba; top:-250px; left:-150px; animation: float 15s ease-in-out infinite; }
+    .orb2 { width:480px; height:480px; background:#8b5cf6; bottom:-120px; right:60px; animation: float 18s ease-in-out infinite 2s; }
+    .orb3 { width:380px; height:380px; background:#06b6d4; top:45%; left:50%; animation: float 20s ease-in-out infinite 4s; }
+    
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(40px, -40px) scale(1.05); }
+    }
+
+    /* ── Fond avec particules ─────────────────────────────────── */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 100%; height: 100%;
+      background: radial-gradient(circle at 20% 50%, rgba(30, 95, 186, 0.08) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
+      pointer-events: none;
+      animation: shift 20s ease-in-out infinite;
+    }
+
+    @keyframes shift {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.1); }
+    }
+
+    /* ── Carte de login avec Glassmorphism ────────────────────── */
+    .card {
+      position: relative; z-index: 10;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 28px; padding: 48px;
+      width: 450px;
+      box-shadow: 
+        0 8px 32px rgba(30, 95, 186, 0.12),
+        0 32px 64px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+      animation: slideUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover { transform: translateY(-2px); }
+
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* ── Logo ────────────────────────────────────────────────── */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 42px;
+      animation: fadeInDown 0.8s ease-out;
+    }
+
+    .logo-box {
+      width: 68px;
+      height: 68px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #1e5fba, #3b82f6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 800;
+      color: #fff;
+      flex-shrink: 0;
+      box-shadow: 0 12px 32px rgba(30, 95, 186, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), transparent);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .logo:hover .logo-box {
+      transform: translateY(-4px) scale(1.08);
+      box-shadow: 0 16px 40px rgba(30, 95, 186, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+
+    .logo:hover .logo-box::before { opacity: 1; }
+
+    .logo div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .logo h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: #0f1729;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+
+    .logo p {
+      font-size: 13px;
+      color: #64748b;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      margin-top: 4px;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ── Étapes avec animations ──────────────────────────────── */
+    .step { display: none; animation: fadeIn 0.6s ease-out; }
+    .step.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .step h2 {
+      font-size: 26px; font-weight: 800; margin-bottom: 8px;
+      background: linear-gradient(135deg, #1e5fba, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .step .sub { font-size: 15px; color: #64748b; margin-bottom: 30px; font-weight: 500; }
+
+    /* ── Grille de rôles premium ─────────────────────────────── */
+    .role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+    .role-btn {
+      background: linear-gradient(135deg, rgba(248, 250, 252, 0.9), rgba(240, 244, 249, 0.9));
+      border: 2px solid rgba(226, 232, 240, 0.8);
+      border-radius: 18px;
+      padding: 32px 16px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      font-family: inherit;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .role-btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .role-btn:hover::before { left: 100%; }
+
+    .role-btn:hover {
+      border-color: #1e5fba;
+      background: linear-gradient(135deg, #e8f0fd, #f0f4f9);
+      transform: translateY(-8px);
+      box-shadow:
+        0 12px 32px rgba(30, 95, 186, 0.25),
+        0 8px 16px rgba(30, 95, 186, 0.12);
+    }
+
+    .role-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 72px; height: 72px;
+      background: linear-gradient(135deg, #1e5fba, #3b82f6);
+      border-radius: 16px;
+      color: #fff;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 8px 20px rgba(30, 95, 186, 0.3);
+      position: relative;
+    }
+
+    .role-icon::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      background: linear-gradient(135deg, #1e5fba, #3b82f6);
+      border-radius: 16px;
+      opacity: 0;
+      z-index: -1;
+      transition: all 0.4s ease;
+      filter: blur(8px);
+    }
+
+    .role-btn:hover .role-icon {
+      transform: scale(1.15) rotate(8deg);
+      box-shadow: 0 12px 32px rgba(30, 95, 186, 0.5);
+    }
+
+    .role-btn:hover .role-icon::after { opacity: 0.5; }
+
+    .role-label { font-size: 16px; font-weight: 800; color: #0f1729; }
+    .role-desc { font-size: 13px; color: #64748b; margin-top: 6px; font-weight: 500; }
+
+    /* ── Formulaire premium ──────────────────────────────────── */
+    .back {
+      background: none; border: none; color: #1e5fba; font-weight: 700;
+      font-size: 14px; cursor: pointer; margin-bottom: 20px; padding: 0; font-family: inherit;
+      transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 6px;
+    }
+
+    .back:hover { transform: translateX(-4px); color: #1749a0; }
+
+    .form-group { margin-bottom: 18px; }
+
+    label {
+      display: block; font-weight: 700; font-size: 14px; margin-bottom: 8px;
+      color: #0f1729; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+
+    input {
+      width: 100%; padding: 13px 16px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px; font-size: 15px; font-family: inherit;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #1e5fba;
+      box-shadow: 0 0 0 4px rgba(30, 95, 186, 0.15), inset 0 0 0 1px rgba(30, 95, 186, 0.1);
+      background: rgba(255, 255, 255, 0.9);
+      transform: scale(1.01);
+    }
+
+    input::placeholder { color: #cbd5e1; }
+
+    .submit-btn {
+      width: 100%; padding: 15px;
+      background: linear-gradient(135deg, #1e5fba, #3b82f6);
+      color: #fff; border: none; border-radius: 12px;
+      font-size: 16px; font-weight: 700; cursor: pointer; font-family: inherit;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      margin-top: 6px;
+      box-shadow: 0 8px 20px rgba(30, 95, 186, 0.3);
+      text-transform: uppercase; letter-spacing: 0.5px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .submit-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 0; height: 0;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .submit-btn:hover::before {
+      width: 300px; height: 300px;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 32px rgba(30, 95, 186, 0.4);
+    }
+
+    .submit-btn:active { transform: translateY(-2px); }
+
+    .error-box {
+      background: linear-gradient(135deg, #fee2e2, #fecaca);
+      color: #dc2626; padding: 13px 16px;
+      border-radius: 12px; font-size: 14px; margin-bottom: 16px;
+      display: none; border-left: 4px solid #ef4444;
+      font-weight: 600;
+      animation: shake 0.4s ease-out;
+    }
+
+    .error-box.show { display: block; }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+
+    .hint {
+      text-align: center; font-size: 12px; color: #94a3b8;
+      margin-top: 16px; font-family: 'Courier New', monospace;
+      font-weight: 500; letter-spacing: 0.5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Décoration -->
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+
+  <div class="card">
+    <!-- Logo -->
+    <div class="logo">
+      <img src="./assets/logooo.png" alt="Logo" class="logo-box">
+      <div>
+        <h1>EMS</h1>
+        <p>Employee Manager System</p>
+      </div>
+    </div>
+
+    <!-- Étape 1 : Choisir rôle -->
+    <div class="step active" id="step-role">
+      <h2>Bienvenue    </h2>
+      <p class="sub">Vous êtes connecté en tant que :</p>
+      <div class="role-grid">
+        <button class="role-btn" onclick="chooseRole('director')">
+          <div class="role-icon"><i class="fas fa-user-tie"></i></div>
+          <div class="role-label">Directeur</div>
+          <div class="role-desc">Accès administration</div>
+        </button>
+        <button class="role-btn" onclick="chooseRole('employee')">
+          <div class="role-icon"><i class="fas fa-user"></i></div>
+          <div class="role-label">Employé</div>
+          <div class="role-desc">Espace personnel</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Étape 2 : Login Directeur -->
+    <div class="step" id="step-director">
+      <button class="back" onclick="goBack()">← Retour</button>
+      <h2>Connexion Directeur</h2>
+      <p class="sub">Entrez vos identifiants administrateur</p>
+      <div class="error-box" id="d-error"></div>
+      <div class="form-group">
+        <label>Email professionnel</label>
+        <input type="email" id="d-email" placeholder="directeur@staffhub.com">
+      </div>
+      <div class="form-group">
+        <label>Clé secrète</label>
+        <input type="text" id="d-key" placeholder="STAFF-XXXX-KEY">
+      </div>
+      <div class="form-group">
+        <label>Mot de passe</label>
+        <input type="password" id="d-pass" placeholder="••••••••">
+      </div>
+      <button class="submit-btn" onclick="loginDirector()">Se connecter</button>
+      <p class="hint">Demo : directeur@staffhub.com · STAFF-2024-KEY · Admin@1234</p>
+    </div>
+
+    <!-- Étape 3 : Login Employé -->
+    <div class="step" id="step-employee">
+      <button class="back" onclick="goBack()">← Retour</button>
+      <h2>Connexion Employé</h2>
+      <p class="sub">Entrez votre email et identifiant</p>
+      <div class="error-box" id="e-error"></div>
+      <div class="form-group">
+        <label>Email professionnel</label>
+        <input type="email" id="e-email" placeholder="prenom.nom@company.com">
+      </div>
+      <div class="form-group">
+        <label>Identifiant employé</label>
+        <input type="text" id="e-id" placeholder="EMP-001">
+      </div>
+      <button class="submit-btn" onclick="loginEmployee()">Se connecter</button>
+      <p class="hint">Demo : sarah.j@company.com · EMP-001</p>
+    </div>
+  </div>
+
+  <script>
+    // ── Navigation entre étapes ───────────────────────────────
+    function chooseRole (role) {
+      document.getElementById('step-role').classList.remove('active')
+      document.getElementById('step-' + role).classList.add('active')
+    }
+    function goBack () {
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'))
+      document.getElementById('step-role').classList.add('active')
+      document.getElementById('d-error').classList.remove('show')
+      document.getElementById('e-error').classList.remove('show')
+    }
+
+    // ── Connexion directeur ───────────────────────────────────
+    async function loginDirector () {
+      const email     = document.getElementById('d-email').value.trim()
+      const secretKey = document.getElementById('d-key').value.trim()
+      const password  = document.getElementById('d-pass').value
+      const errEl     = document.getElementById('d-error')
+
+      if (!email || !secretKey || !password) {
+        errEl.textContent = 'Veuillez remplir tous les champs.'
+        errEl.classList.add('show'); return
+      }
+
+      const res = await window.api.loginDirector({ email, secretKey, password })
+      if (res.ok) {
+        // Sauvegarder l'utilisateur et rediriger
+        sessionStorage.setItem('user', JSON.stringify(res.user))
+        sessionStorage.setItem('role', 'director')
+        location.href = '../director/dashboard.html'
+      } else {
+        errEl.textContent = res.message
+        errEl.classList.add('show')
+      }
+    }
+
+    // ── Connexion employé ─────────────────────────────────────
+    async function loginEmployee () {
+      const email      = document.getElementById('e-email').value.trim()
+      const employeeId = document.getElementById('e-id').value.trim().toUpperCase()
+      const errEl      = document.getElementById('e-error')
+
+      if (!email || !employeeId) {
+        errEl.textContent = 'Veuillez remplir tous les champs.'
+        errEl.classList.add('show'); return
+      }
+
+      const res = await window.api.loginEmployee({ email, employeeId })
+      if (res.ok) {
+        sessionStorage.setItem('user', JSON.stringify(res.user))
+        sessionStorage.setItem('role', 'employee')
+        location.href = '../employee/dashboard.html'
+      } else {
+        errEl.textContent = res.message
+        errEl.classList.add('show')
+      }
+    }
+
+    // Touche Entrée pour soumettre
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Enter') return
+      if (document.getElementById('step-director').classList.contains('active')) loginDirector()
+      if (document.getElementById('step-employee').classList.contains('active')) loginEmployee()
+    })
+  </script>
+</body>
+</html>

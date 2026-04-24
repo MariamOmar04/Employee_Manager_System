@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>StaffHub — Rapports</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+<div class="app-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-box">S</div>
+      <div><div class="logo-name">StaffHub</div><div class="logo-sub">Employee Manager</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">MENU</div>
+      <button class="nav-btn" onclick="location.href='dashboard.html'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-no-axes-combined-icon lucide-chart-no-axes-combined"><path d="M12 16v5"/><path d="M16 14v7"/><path d="M20 10v11"/><path d="m22 3-8.646 8.646a.5.5 0 0 1-.708 0L9.354 8.354a.5.5 0 0 0-.707 0L2 15"/><path d="M4 18v3"/><path d="M8 14v7"/></svg>Dashboard</button>
+      <button class="nav-btn" onclick="location.href='employees.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Employés</button>
+      <button class="nav-btn" onclick="location.href='attendance.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Présences</button>
+      <button class="nav-btn" onclick="location.href='leaves.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Congés</button>
+      <button class="nav-btn" onclick="location.href='meetings.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Réunions</button>
+      <button class="nav-btn active" onclick="location.href='reports.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Rapports</button>
+    </nav>
+    <div class="sidebar-footer"><button class="nav-btn" onclick="location.href='profile.html'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user-round-icon lucide-circle-user-round"><path d="M17.925 20.056a6 6 0 0 0-11.851.001"/><circle cx="12" cy="11" r="4"/><circle cx="12" cy="12" r="10"/></svg>
+     Profile </button></div>
+    <div class="sidebar-footer">
+      <button class="nav-btn" onclick="logout()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Déconnexion</button>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <div class="topbar-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Rechercher...">
+      </div>
+      <div class="topbar-right">
+        <div class="user-info">
+          <div class="avatar" id="userAvatar">JD</div>
+          <div><div class="user-name" id="userName">—</div><div class="user-role">Directeur</div></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="pages">
+      <div class="page active">
+
+        <div class="page-header">
+          <div>
+            <h1>Rapports </h1>
+            <p>Exportez vos données en fichier Excel (.xlsx)</p>
+          </div>
+        </div>
+
+        <div class="report-grid">
+
+          <div class="report-card" onclick="exportExcel('employees')">
+            <div class="report-icon"><svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="#2455eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-user-icon lucide-file-user"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M16 22a4 4 0 0 0-8 0"/><circle cx="12" cy="15" r="3"/></svg></div>
+            <h3>Rapport Employés</h3>
+            <p>Liste complète avec salaires, postes, coordonnées et statuts</p>
+            <div class="report-link">Exporter en Excel →</div>
+          </div>
+
+          <div class="report-card" onclick="exportExcel('attendance')">
+            <div class="report-icon"><svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="#1bb12c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-check-icon lucide-file-check"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="m9 15 2 2 4-4"/></svg></div>
+            <h3>Rapport Présences</h3>
+            <p>Historique de tous les check-in et check-out par employé</p>
+            <div class="report-link">Exporter en Excel →</div>
+          </div>
+
+          <div class="report-card" onclick="exportExcel('leaves')">
+            <div class="report-icon"><svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="#FFA500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-clock-icon lucide-file-clock"><path d="M16 22h2a2 2 0 0 0 2-2V8a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v2.85"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M8 14v2.2l1.6 1"/><circle cx="8" cy="16" r="6"/></svg></div>
+            <h3>Rapport Congés</h3>
+            <p>Toutes les demandes de congé avec statuts et notes</p>
+            <div class="report-link">Exporter en Excel →</div>
+          </div>
+
+        </div>
+
+        <!-- Zone résultat export -->
+        <div id="exportResult" style="display:none;margin-top:24px">
+          <div class="card" style="border-left:4px solid var(--green)">
+            <div style="display:flex;align-items:center;gap:12px">
+              <span style="font-size:28px"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#06c649" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell-check-icon lucide-bell-check"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="m15 8 2 2 4-4"/><path d="M16.8607 4.4824A6 6 0 0 0 6 8C6 12.499 4.589 13.956 3.262 15.326"/><path d="M3.262 15.326A1 1 0 0 0 4 17H20A1 1 0 0 0 20.74 15.327C20.209 14.779 19.665 14.218 19.203 13.454"/></svg></span>
+              <div>
+                <div style="font-weight:700;font-size:16px">Fichier exporté avec succès !</div>
+                <div style="font-size:13px;color:var(--text-sub);margin-top:4px" id="exportPath"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script>
+const user = JSON.parse(sessionStorage.getItem('user') || '{}')
+document.getElementById('userName').textContent   = user.firstName + ' ' + user.lastName
+document.getElementById('userAvatar').textContent = (user.firstName?.[0]||'') + (user.lastName?.[0]||'')
+
+function logout () { sessionStorage.clear(); location.href = '../shared/login.html' }
+
+function toast (msg, type='info') {
+  const el = document.getElementById('toast')
+  el.textContent = msg; el.className = 'show-' + type
+  setTimeout(() => el.className = '', 4000)
+}
+
+async function exportExcel (type) {
+  toast('Export en cours...', 'info')
+  document.getElementById('exportResult').style.display = 'none'
+
+  const res = await window.api.exportExcel(type)
+  if (res.ok) {
+    toast('Export réussi ✓', 'success')
+    document.getElementById('exportResult').style.display = 'block'
+    document.getElementById('exportPath').textContent = '📁 Sauvegardé dans : ' + res.path
+  } else {
+    toast('Erreur lors de l\'export', 'error')
+  }
+}
+</script>
+</body>
+</html>

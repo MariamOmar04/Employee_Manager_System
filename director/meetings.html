@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>StaffHub — Réunions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+<div class="app-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-box">S</div>
+      <div><div class="logo-name">StaffHub</div><div class="logo-sub">Employee Manager</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">MENU</div>
+      <button class="nav-btn" onclick="location.href='dashboard.html'">
+       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-no-axes-combined-icon lucide-chart-no-axes-combined"><path d="M12 16v5"/><path d="M16 14v7"/><path d="M20 10v11"/><path d="m22 3-8.646 8.646a.5.5 0 0 1-.708 0L9.354 8.354a.5.5 0 0 0-.707 0L2 15"/><path d="M4 18v3"/><path d="M8 14v7"/></svg>Dashboard</button>
+      <button class="nav-btn" onclick="location.href='employees.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Employés</button>
+      <button class="nav-btn" onclick="location.href='attendance.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Présences</button>
+      <button class="nav-btn" onclick="location.href='leaves.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Congés</button>
+      <button class="nav-btn active" onclick="location.href='meetings.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Réunions</button>
+      <button class="nav-btn" onclick="location.href='reports.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Rapports </button>
+    </nav>
+    <div class="sidebar-footer"><button class="nav-btn" onclick="location.href='profile.html'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user-round-icon lucide-circle-user-round"><path d="M17.925 20.056a6 6 0 0 0-11.851.001"/><circle cx="12" cy="11" r="4"/><circle cx="12" cy="12" r="10"/></svg>
+      Profile</button></div>
+    <div class="sidebar-footer">
+      <button class="nav-btn" onclick="logout()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Déconnexion</button>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <div class="topbar-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Rechercher une réunion...">
+      </div>
+      <div class="topbar-right">
+        <div class="user-info">
+          <div class="avatar" id="userAvatar">JD</div>
+          <div><div class="user-name" id="userName">—</div><div class="user-role">Directeur</div></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="pages">
+      <div class="page active">
+
+        <div class="page-header">
+          <div>
+            <h1>Réunions</h1>
+            <p>Planifiez et gérez les réunions d'équipe</p>
+          </div>
+          <button class="btn btn-primary" onclick="openModal()">+ Nouvelle Réunion</button>
+        </div>
+
+        <!-- Grille des réunions -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px" id="meetingsGrid"></div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL CRÉER RÉUNION ════════════════════════════════ -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Nouvelle Réunion</h3>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Titre de la réunion *</label>
+        <input id="f-title" placeholder="Ex: Sprint Planning Q3">
+      </div>
+      <div class="form-group">
+        <label>Objectif *</label>
+        <textarea id="f-objective" placeholder="Décrivez l'objectif principal de cette réunion..."></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date *</label>
+          <input type="date" id="f-date">
+        </div>
+        <div class="form-group">
+          <label>Heure *</label>
+          <input type="time" id="f-time" value="10:00">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Durée (minutes)</label>
+          <input type="number" id="f-duration" value="60" min="15">
+        </div>
+        <div class="form-group">
+          <label>Lieu</label>
+          <input id="f-location" placeholder="Salle de conférence A">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Participants (IDs séparés par virgule)</label>
+        <input id="f-participants" placeholder="EMP-001, EMP-002, EMP-003">
+        <small style="color:var(--text-sub);font-size:12px">Entrez les identifiants employés séparés par une virgule</small>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="saveMeeting()">Créer la Réunion</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script>
+const user = JSON.parse(sessionStorage.getItem('user') || '{}')
+document.getElementById('userName').textContent   = user.firstName + ' ' + user.lastName
+document.getElementById('userAvatar').textContent = (user.firstName?.[0]||'') + (user.lastName?.[0]||'')
+
+function logout () { sessionStorage.clear(); location.href = '../shared/login.html' }
+function toast (msg, type='info') {
+  const el = document.getElementById('toast')
+  el.textContent = msg; el.className = 'show-' + type
+  setTimeout(() => el.className = '', 3200)
+}
+function fmtDate (d) {
+  if (!d) return '—'
+  return new Date(d).toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'})
+}
+
+// Couleur selon si la réunion est passée ou à venir
+function isUpcoming (dateStr) {
+  return new Date(dateStr) >= new Date(new Date().toDateString())
+}
+
+async function loadMeetings () {
+  const meetings = await window.api.getAllMeetings()
+  const el = document.getElementById('meetingsGrid')
+
+  if (!meetings.length) {
+    el.innerHTML = '<div class="empty">Aucune réunion planifiée.</div>'
+    return
+  }
+
+  el.innerHTML = meetings.map(m => {
+    const upcoming = isUpcoming(m.meetingDate)
+    const participants = m.participants ? m.participants.split(',').map(p => p.trim()) : []
+    return `
+      <div class="meeting-card" style="border-left-color:${upcoming ? 'var(--primary)' : 'var(--border)'}">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+          <div class="meeting-title">${m.title}</div>
+          ${upcoming
+            ? '<span class="badge badge-active">À venir</span>'
+            : '<span class="badge" style="background:var(--bg);color:var(--text-sub)">Passée</span>'
+          }
+        </div>
+        <div class="meeting-obj">${m.objective || '—'}</div>
+
+        <div class="meeting-meta">
+          <div class="meeting-meta-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            ${fmtDate(m.meetingDate)}
+          </div>
+          <div class="meeting-meta-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            ${m.startTime} — Durée : <strong>${m.duration} min</strong>
+          </div>
+          ${m.location ? `
+          <div class="meeting-meta-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            ${m.location}
+          </div>` : ''}
+        </div>
+
+        ${participants.length ? `
+          <div class="participants-row">
+            <div class="p-label">Participants (${participants.length})</div>
+            <div class="p-chips">
+              ${participants.map(p => `<span class="p-chip">${p}</span>`).join('')}
+            </div>
+          </div>
+        ` : ''}
+      </div>
+    `
+  }).join('')
+}
+
+function openModal () {
+  document.getElementById('f-title').value        = ''
+  document.getElementById('f-objective').value    = ''
+  document.getElementById('f-time').value         = '10:00'
+  document.getElementById('f-duration').value     = '60'
+  document.getElementById('f-location').value     = ''
+  document.getElementById('f-participants').value = ''
+  document.getElementById('f-date').value = new Date().toISOString().split('T')[0]
+  document.getElementById('modal').classList.add('open')
+}
+
+function closeModal () {
+  document.getElementById('modal').classList.remove('open')
+}
+
+async function saveMeeting () {
+  const data = {
+    title        : document.getElementById('f-title').value.trim(),
+    objective    : document.getElementById('f-objective').value.trim(),
+    meetingDate  : document.getElementById('f-date').value,
+    startTime    : document.getElementById('f-time').value,
+    duration     : parseInt(document.getElementById('f-duration').value) || 60,
+    location     : document.getElementById('f-location').value.trim(),
+    participants : document.getElementById('f-participants').value.trim(),
+  }
+
+  if (!data.title || !data.meetingDate) {
+    toast('Le titre et la date sont obligatoires.', 'error')
+    return
+  }
+
+  const res = await window.api.addMeeting(data)
+  if (res.ok) {
+    closeModal()
+    toast('Réunion créée avec succès ✓', 'success')
+    loadMeetings()
+  } else {
+    toast('Erreur : ' + res.message, 'error')
+  }
+}
+
+loadMeetings()
+</script>
+</body>
+</html>

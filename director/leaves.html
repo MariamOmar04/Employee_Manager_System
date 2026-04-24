@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>StaffHub — Congés</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/style.css">
+  <style>
+    /* Styles spécifiques à la page congés */
+    .leave-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 22px;
+      box-shadow: var(--shadow); margin-bottom: 14px;
+      transition: box-shadow .15s;
+    }
+    .leave-card:hover { box-shadow: var(--shadow-md); }
+    .leave-card-head  { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+    .leave-who        { display:flex; align-items:center; gap:12px; }
+    .leave-who-name   { font-weight:700; font-size:15px; }
+    .leave-who-dept   { font-size:12px; color:var(--text-sub); }
+    .leave-info-row   { display:flex; gap:28px; flex-wrap:wrap; margin-bottom:14px; }
+    .leave-info-item  { display:flex; flex-direction:column; gap:3px; }
+    .info-label       { font-size:11px; font-weight:700; color:var(--text-sub); text-transform:uppercase; }
+    .info-val         { font-size:14px; font-weight:600; }
+    .leave-actions    { display:flex; align-items:flex-start; gap:10px; }
+    .note-input       { flex:1; }
+    .note-input textarea { width:100%; border:1.5px solid var(--border); border-radius:9px; padding:9px 12px; font-family:inherit; font-size:13px; resize:none; height:54px; }
+    .note-input textarea:focus { outline:none; border-color:var(--primary); }
+    .tab-bar          { display:flex; gap:8px; margin-bottom:22px; }
+    .tab-btn          { padding:8px 20px; border-radius:20px; border:1.5px solid var(--border); background:var(--bg); font-family:inherit; font-size:13px; font-weight:600; cursor:pointer; transition:all .15s; }
+    .tab-btn.active   { background:var(--primary); border-color:var(--primary); color:#fff; }
+  </style>
+</head>
+<body>
+<div class="app-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-box">S</div>
+      <div><div class="logo-name">StaffHub</div><div class="logo-sub">Employee Manager</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">MENU</div>
+      <button class="nav-btn" onclick="location.href='dashboard.html'">
+       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-no-axes-combined-icon lucide-chart-no-axes-combined"><path d="M12 16v5"/><path d="M16 14v7"/><path d="M20 10v11"/><path d="m22 3-8.646 8.646a.5.5 0 0 1-.708 0L9.354 8.354a.5.5 0 0 0-.707 0L2 15"/><path d="M4 18v3"/><path d="M8 14v7"/></svg> Dashboard</button>
+      <button class="nav-btn" onclick="location.href='employees.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Employés</button>
+      <button class="nav-btn" onclick="location.href='attendance.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Présences</button>
+      <button class="nav-btn active" onclick="location.href='leaves.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Congés</button>
+      <button class="nav-btn" onclick="location.href='meetings.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Réunions</button>
+      <button class="nav-btn" onclick="location.href='reports.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Rapports</button>
+    </nav>
+    <div class="sidebar-footer"><button class="nav-btn" onclick="location.href='profile.html'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user-round-icon lucide-circle-user-round"><path d="M17.925 20.056a6 6 0 0 0-11.851.001"/><circle cx="12" cy="11" r="4"/><circle cx="12" cy="12" r="10"/></svg>
+     Profile </button></div>
+    <div class="sidebar-footer">
+      <button class="nav-btn" onclick="logout()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Déconnexion</button>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <div class="topbar-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Rechercher...">
+      </div>
+      <div class="topbar-right">
+        <div class="user-info">
+          <div class="avatar" id="userAvatar">JD</div>
+          <div><div class="user-name" id="userName">—</div><div class="user-role">Directeur</div></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="pages">
+      <div class="page active">
+
+        <div class="page-header">
+          <div>
+            <h1>Demandes de Congé</h1>
+            <p>Validation et gestion des congés</p>
+          </div>
+          <button class="btn btn-outline" onclick="exportExcel()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Exporter Excel
+          </button>
+        </div>
+
+        <!-- Stats congés -->
+        <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:24px">
+          <div class="stat-card">
+            <div><div class="stat-label">En attente</div><div class="stat-val" id="s-pending" style="color:var(--orange)">—</div></div>
+            <div class="stat-icon icon-orange"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFA500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hourglass-icon lucide-hourglass"><path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></svg></div>
+          </div>
+          <div class="stat-card">
+            <div><div class="stat-label">Approuvés</div><div class="stat-val" id="s-approved" style="color:var(--green)">—</div></div>
+            <div class="stat-icon icon-green"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#328f3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-check-icon lucide-user-check"><path d="m16 11 2 2 4-4"/><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+          </div>
+          <div class="stat-card">
+            <div><div class="stat-label">Refusés</div><div class="stat-val" id="s-refused" style="color:var(--red)">—</div></div>
+            <div class="stat-icon icon-purple"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#dc3545" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+          </div>
+        </div>
+
+        <!-- Onglets filtre -->
+        <div class="tab-bar">
+          <button class="tab-btn active" onclick="setTab('all',this)">Tous</button>
+          <button class="tab-btn" onclick="setTab('Pending',this)" > En attente</button>
+          <button class="tab-btn" onclick="setTab('Approved',this)"> Approuvés</button>
+          <button class="tab-btn" onclick="setTab('Refused',this)" >Refusés</button>
+        </div>
+
+
+        <!-- Liste des congés -->
+        <div id="leavesList"></div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script>
+const user = JSON.parse(sessionStorage.getItem('user') || '{}')
+document.getElementById('userName').textContent   = user.firstName + ' ' + user.lastName
+document.getElementById('userAvatar').textContent = (user.firstName?.[0]||'') + (user.lastName?.[0]||'')
+
+function logout () { sessionStorage.clear(); location.href = '../shared/login.html' }
+function toast (msg, type='info') {
+  const el = document.getElementById('toast')
+  el.textContent = msg; el.className = 'show-' + type
+  setTimeout(() => el.className = '', 3200)
+}
+function fmtDate (d) {
+  if (!d) return '—'
+  return new Date(d).toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'})
+}
+function badge (s) {
+  const m = { Pending:'badge-pending', Approved:'badge-approved', Refused:'badge-refused' }
+  const labels = { Pending:'⏳ En attente', Approved:'✅ Approuvé', Refused:'❌ Refusé' }
+  return `<span class="badge ${m[s]||''}">${labels[s]||s}</span>`
+}
+// Calculer nombre de jours
+function daysBetween (a, b) {
+  const diff = new Date(b) - new Date(a)
+  return Math.max(1, Math.round(diff / 86400000) + 1)
+}
+
+let allLeaves = []
+let currentTab = 'all'
+
+async function loadLeaves () {
+  allLeaves = await window.api.getAllLeaves()
+  const pending  = allLeaves.filter(l => l.status === 'Pending').length
+  const approved = allLeaves.filter(l => l.status === 'Approved').length
+  const refused  = allLeaves.filter(l => l.status === 'Refused').length
+  document.getElementById('s-pending').textContent  = pending
+  document.getElementById('s-approved').textContent = approved
+  document.getElementById('s-refused').textContent  = refused
+  renderList()
+}
+
+function setTab (tab, btn) {
+  currentTab = tab
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
+  btn.classList.add('active')
+  renderList()
+}
+
+function renderList () {
+  const list = currentTab === 'all'
+    ? allLeaves
+    : allLeaves.filter(l => l.status === currentTab)
+
+  const el = document.getElementById('leavesList')
+
+  if (!list.length) {
+    el.innerHTML = '<div class="empty">Aucune demande de congé.</div>'
+    return
+  }
+
+  el.innerHTML = list.map(l => `
+    <div class="leave-card">
+      <div class="leave-card-head">
+        <div class="leave-who">
+          <div class="avatar">${l.firstName[0]}${l.lastName[0]}</div>
+          <div>
+            <div class="leave-who-name">${l.firstName} ${l.lastName}</div>
+            <div class="leave-who-dept">${l.department} — ${l.position}</div>
+          </div>
+        </div>
+        ${badge(l.status)}
+      </div>
+
+      <div class="leave-info-row">
+        <div class="leave-info-item">
+          <span class="info-label">Type</span>
+          <span class="info-val">${l.type}</span>
+        </div>
+        <div class="leave-info-item">
+          <span class="info-label">Début</span>
+          <span class="info-val">${fmtDate(l.startDate)}</span>
+        </div>
+        <div class="leave-info-item">
+          <span class="info-label">Fin</span>
+          <span class="info-val">${fmtDate(l.endDate)}</span>
+        </div>
+        <div class="leave-info-item">
+          <span class="info-label">Durée</span>
+          <span class="info-val">${daysBetween(l.startDate, l.endDate)} jour(s)</span>
+        </div>
+        <div class="leave-info-item">
+          <span class="info-label">Raison</span>
+          <span class="info-val">${l.reason || '—'}</span>
+        </div>
+      </div>
+
+      ${l.status === 'Pending' ? `
+        <div class="leave-actions">
+          <div class="note-input">
+            <textarea id="note-${l.id}" placeholder="Note pour l'employé (optionnel)...">${l.directorNote||''}</textarea>
+          </div>
+          <button class="btn btn-green btn-sm" onclick="decide(${l.id},'Approved')">✓ Approuver</button>
+          <button class="btn btn-red   btn-sm" onclick="decide(${l.id},'Refused')">✕ Refuser</button>
+        </div>
+      ` : l.directorNote ? `
+        <div style="font-size:13px;color:var(--text-sub);margin-top:4px;font-style:italic">
+          💬 Note directeur : ${l.directorNote}
+        </div>
+      ` : ''}
+    </div>
+  `).join('')
+}
+
+async function decide (id, status) {
+  const noteEl = document.getElementById('note-' + id)
+  const note   = noteEl ? noteEl.value.trim() : ''
+  await window.api.updateLeave({ id, status, note })
+  toast(status === 'Approved' ? 'Congé approuvé ✓' : 'Congé refusé.', status === 'Approved' ? 'success' : 'error')
+  loadLeaves()
+}
+
+async function exportExcel () {
+  toast('Export en cours...', 'info')
+  const res = await window.api.exportExcel('leaves')
+  if (res.ok) toast('Fichier sauvegardé : ' + res.path, 'success')
+  else toast('Erreur export', 'error')
+}
+
+loadLeaves()
+</script>
+</body>
+</html>

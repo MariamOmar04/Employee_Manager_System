@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>StaffHub — Ma Présence</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/style.css">
+  <style>
+    /* Horloge héro */
+    .clock-hero {
+      background: linear-gradient(135deg, #0f1729 0%, #1a2a4a 100%);
+      border-radius: var(--radius); padding: 48px; text-align: center;
+      margin-bottom: 24px; color: #fff;
+    }
+    .clock-time {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 64px; font-weight: 700; letter-spacing: .04em;
+      line-height: 1;
+    }
+    .clock-date {
+      font-size: 16px; color: rgba(255,255,255,.55); margin: 10px 0 32px;
+      text-transform: capitalize;
+    }
+    .checkin-row { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+    .btn-checkin {
+      padding: 14px 36px; border-radius: 12px; border: none;
+      font-size: 16px; font-weight: 700; cursor: pointer; font-family: inherit;
+      display:flex; align-items:center; gap:9px; transition: all .2s;
+    }
+    .btn-in  { background:var(--green); color:#fff; }
+    .btn-in:hover  { background:#059669; transform:translateY(-2px); box-shadow:0 8px 20px rgba(16,185,129,.3); }
+    .btn-out { background:var(--orange); color:#fff; }
+    .btn-out:hover { background:#d97706; transform:translateY(-2px); box-shadow:0 8px 20px rgba(245,158,11,.3); }
+    .btn-done { background:#94a3b8; color:#fff; cursor:default; }
+    /* Indicateur statut du jour */
+    .today-band {
+      background:var(--primary-lt); border:1.5px solid var(--primary);
+      border-radius:var(--radius-sm); padding:14px 20px;
+      display:flex; align-items:center; gap:12px; margin-bottom:20px;
+      font-weight:600;
+    }
+    .today-band .dot {
+      width:10px;height:10px;border-radius:50%;background:var(--green);flex-shrink:0;
+      box-shadow:0 0 0 3px rgba(16,185,129,.25);
+      animation:pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{box-shadow:0 0 0 3px rgba(16,185,129,.25);} 50%{box-shadow:0 0 0 7px rgba(16,185,129,.08);} }
+  </style>
+</head>
+<body>
+<div class="app-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-box">S</div>
+      <div><div class="logo-name">StaffHub</div><div class="logo-sub">Espace Employé</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">MON ESPACE</div>
+      <button class="nav-btn" onclick="location.href='dashboard.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Tableau de Bord</button>
+      <button class="nav-btn active" onclick="location.href='presence.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Ma Présence</button>
+      <button class="nav-btn" onclick="location.href='leave.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Mes Congés</button>
+      <button class="nav-btn" onclick="location.href='salary.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Mon Salaire</button>
+      <button class="nav-btn" onclick="location.href='meetings.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Mes Réunions</button>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="nav-btn" onclick="logout()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Déconnexion</button>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <div class="topbar-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Rechercher...">
+      </div>
+      <div class="topbar-right">
+        <div class="user-info">
+          <div class="avatar" id="userAvatar">SJ</div>
+          <div><div class="user-name" id="userName">—</div><div class="user-role" id="userPos">—</div></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="pages">
+      <div class="page active">
+
+        <div class="page-header">
+          <div>
+            <h1>Ma Présence</h1>
+            <p>Pointage et historique de vos présences</p>
+          </div>
+        </div>
+
+        <!-- Horloge en temps réel -->
+        <div class="clock-hero">
+          <div class="clock-time" id="clock">00:00:00</div>
+          <div class="clock-date"  id="clockDate"></div>
+          <div class="checkin-row">
+            <button class="btn-checkin btn-in"  id="btnCheckIn"  onclick="doCheckin()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Check In
+            </button>
+            <button class="btn-checkin btn-out" id="btnCheckOut" onclick="doCheckin()" style="display:none">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Check Out
+            </button>
+          </div>
+        </div>
+
+        <!-- Statut du jour -->
+        <div class="today-band" id="todayBand" style="display:none">
+          <div class="dot"></div>
+          <div id="todayBandText">—</div>
+        </div>
+
+        <!-- Tableau historique -->
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <div class="card-title">Historique des Présences</div>
+              <div class="card-sub">30 dernières entrées</div>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Date</th><th>Arrivée</th><th>Départ</th><th>Durée travaillée</th><th>Statut</th></tr>
+              </thead>
+              <tbody id="attBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script>
+const user = JSON.parse(sessionStorage.getItem('user') || '{}')
+if (!user.employeeId) location.href = '../shared/login.html'
+
+document.getElementById('userName').textContent   = user.firstName + ' ' + user.lastName
+document.getElementById('userAvatar').textContent = (user.firstName?.[0]||'') + (user.lastName?.[0]||'')
+document.getElementById('userPos').textContent    = user.position || ''
+
+function logout () { sessionStorage.clear(); location.href = '../shared/login.html' }
+function toast (msg, type='info') {
+  const el = document.getElementById('toast')
+  el.textContent = msg; el.className = 'show-' + type
+  setTimeout(() => el.className = '', 3200)
+}
+function fmtDate (d) {
+  if (!d) return '—'
+  return new Date(d).toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short',year:'numeric'})
+}
+function calcDuration (i, o) {
+  if (!i || !o) return '—'
+  const [h1,m1] = i.split(':').map(Number)
+  const [h2,m2] = o.split(':').map(Number)
+  const mins = (h2*60+m2)-(h1*60+m1)
+  if (mins<=0) return '—'
+  return `${Math.floor(mins/60)}h ${String(mins%60).padStart(2,'0')}min`
+}
+
+// Horloge temps réel
+function startClock () {
+  function tick () {
+    const now = new Date()
+    document.getElementById('clock').textContent = now.toLocaleTimeString('fr-FR')
+    document.getElementById('clockDate').textContent = now.toLocaleDateString('fr-FR',{
+      weekday:'long', day:'numeric', month:'long', year:'numeric'
+    })
+  }
+  tick()
+  setInterval(tick, 1000)
+}
+
+async function loadAttendance () {
+  const rows  = await window.api.getMyAttendance(user.employeeId)
+  const today = new Date().toISOString().split('T')[0]
+  const todayAtt = rows.find(r => r.date === today)
+
+  // Adapter les boutons selon l'état
+  const btnIn  = document.getElementById('btnCheckIn')
+  const btnOut = document.getElementById('btnCheckOut')
+  const band   = document.getElementById('todayBand')
+  const bandTxt= document.getElementById('todayBandText')
+
+  if (todayAtt) {
+    band.style.display = 'flex'
+    if (todayAtt.checkOut) {
+      // Journée terminée
+      btnIn.style.display  = 'none'
+      btnOut.style.display = 'none'
+      const done = document.createElement('button')
+      done.className = 'btn-checkin btn-done'
+      done.textContent = '✓ Journée terminée'
+      document.querySelector('.checkin-row').appendChild(done)
+      bandTxt.textContent = `✅ Journée complète : arrivé à ${todayAtt.checkIn}, parti à ${todayAtt.checkOut} (${calcDuration(todayAtt.checkIn, todayAtt.checkOut)})`
+    } else {
+      // En cours
+      btnIn.style.display  = 'none'
+      btnOut.style.display = 'flex'
+      bandTxt.textContent  = `⏱️ En cours — arrivé à ${todayAtt.checkIn}`
+    }
+  }
+
+  // Tableau
+  const tbody = document.getElementById('attBody')
+  tbody.innerHTML = rows.length ? rows.map(r => `
+    <tr>
+      <td>${fmtDate(r.date)}</td>
+      <td style="font-family:monospace;font-weight:700;color:var(--green)">${r.checkIn||'—'}</td>
+      <td style="font-family:monospace;font-weight:700;color:var(--primary)">${r.checkOut||'—'}</td>
+      <td style="font-weight:600">${calcDuration(r.checkIn,r.checkOut)}</td>
+      <td><span class="badge badge-active">Présent</span></td>
+    </tr>
+  `).join('') : '<tr><td colspan="5" class="empty">Aucun pointage enregistré.</td></tr>'
+}
+
+async function doCheckin () {
+  const res = await window.api.checkIn(user.employeeId)
+  if (res.ok) {
+    toast((res.action==='checkin' ? '✅ Check-in enregistré à ' : '🏠 Check-out enregistré à ') + res.time, 'success')
+    loadAttendance()
+  } else {
+    toast(res.message, 'error')
+  }
+}
+
+startClock()
+loadAttendance()
+</script>
+</body>
+</html>
