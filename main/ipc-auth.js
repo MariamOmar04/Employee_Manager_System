@@ -15,14 +15,17 @@ module.exports = function (ipcMain, db) {
   })
 
   // Connexion employé
-  ipcMain.handle('auth:employee', (_, { email, employeeId }) => {
-    const user = db.get(
-      'SELECT * FROM employees WHERE email=? AND employeeId=?',
-      [email, employeeId]
-    )
-    if (user) return { ok: true, user }
-    return { ok: false, message: 'Email ou identifiant employé incorrect.' }
-  })
+ipcMain.handle('auth:employee', (_, { email, employeeId }) => {
+  const user = db.get(
+    `SELECT * FROM employees 
+     WHERE LOWER(email)=LOWER(?) 
+     AND UPPER(employeeId)=UPPER(?)`,
+    [email.trim(), employeeId.trim()]
+  )
+
+  if (user) return { ok: true, user }
+  return { ok: false, message: 'Email ou identifiant employé incorrect.' }
+})
 
   // Stats pour le dashboard directeur
   ipcMain.handle('dashboard:stats', () => {
