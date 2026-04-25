@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>StaffHub — Mon Profil Directeur</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/style.css">
+  <style>
+    /* ── Profil spécifique ── */
+    .profile-hero {
+      background: linear-gradient(135deg, #0f1729 0%, #1e3a6e 100%);
+      border-radius: var(--radius);
+      padding: 36px 40px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .profile-hero::before {
+      content: '';
+      position: absolute;
+      right: -60px; top: -60px;
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      background: rgba(59,130,246,0.12);
+    }
+    .profile-hero::after {
+      content: '';
+      position: absolute;
+      right: 60px; bottom: -80px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(139,92,246,0.10);
+    }
+    .hero-avatar {
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px; font-weight: 800; color: #fff;
+      flex-shrink: 0; position: relative; z-index: 1;
+      border: 4px solid rgba(255,255,255,0.2);
+    }
+    .hero-info { flex: 1; position: relative; z-index: 1; }
+    .hero-name  { font-size: 26px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+    .hero-role  { font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 12px; }
+    .hero-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+    .hero-badge {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.85);
+      border-radius: 20px; padding: 4px 14px;
+      font-size: 12px; font-weight: 600;
+    }
+    .hero-badge.green { background: rgba(16,185,129,0.2); border-color: rgba(16,185,129,0.4); color: #6ee7b7; }
+
+    /* ── Grid info ── */
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+    .info-section { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); }
+    .info-section-title {
+      font-size: 13px; font-weight: 700; color: var(--text-sub);
+      text-transform: uppercase; letter-spacing: .06em;
+      margin-bottom: 18px; padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .info-section-title svg { width: 15px; height: 15px; }
+    .info-row { display: flex; align-items: flex-start; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f8fafc; gap: 12px; }
+    .info-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .info-label { font-size: 12px; color: var(--text-sub); font-weight: 500; white-space: nowrap; }
+    .info-val   { font-size: 13px; font-weight: 700; color: var(--text); text-align: right; }
+    .info-val.blue   { color: var(--primary); }
+    .info-val.green  { color: var(--green); }
+    .info-val.orange { color: var(--orange); }
+
+    /* ── Stats résumé ── */
+    .kpi-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 24px; }
+    .kpi-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+      box-shadow: var(--shadow); text-align: center;
+    }
+    .kpi-val  { font-size: 30px; font-weight: 800; margin-bottom: 4px; }
+    .kpi-label{ font-size: 12px; color: var(--text-sub); font-weight: 500; }
+
+    /* ── Formulaire édition ── */
+    .edit-section { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 24px; }
+    .edit-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .edit-sub   { font-size: 12px; color: var(--text-sub); margin-bottom: 20px; }
+    .edit-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .field-group { display: flex; flex-direction: column; gap: 6px; }
+    .field-group label { font-size: 12px; font-weight: 700; color: var(--text-sub); text-transform: uppercase; letter-spacing: .04em; }
+    .field-group input, .field-group select {
+      padding: 10px 14px; border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm); font-family: inherit;
+      font-size: 14px; background: #fff; transition: border .2s;
+    }
+    .field-group input:focus, .field-group select:focus {
+      outline: none; border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(30,95,186,.1);
+    }
+    .field-group input:disabled {
+      background: var(--bg); color: var(--text-sub); cursor: not-allowed;
+    }
+    .edit-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+
+    /* ── Activité récente ── */
+    .activity-list { display: flex; flex-direction: column; gap: 0; }
+    .activity-item {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 0; border-bottom: 1px solid #f8fafc;
+    }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-dot {
+      width: 34px; height: 34px; border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; flex-shrink: 0;
+    }
+    .activity-dot.blue   { background: var(--primary-lt); }
+    .activity-dot.green  { background: var(--green-lt); }
+    .activity-dot.orange { background: var(--orange-lt); }
+    .activity-dot.purple { background: var(--purple-lt); }
+    .activity-text { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+    .activity-time { font-size: 11px; color: var(--text-sub); }
+
+    /* ── Divider full width ── */
+    .full-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 24px; }
+  </style>
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-box">S</div>
+      <div><div class="logo-name">StaffHub</div><div class="logo-sub">Employee Manager</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">MENU</div>
+      <button class="nav-btn" onclick="location.href='dashboard.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </button>
+      <button class="nav-btn" onclick="location.href='employees.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Employés
+      </button>
+      <button class="nav-btn" onclick="location.href='attendance.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Présences
+      </button>
+      <button class="nav-btn" onclick="location.href='leaves.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Congés
+      </button>
+      <button class="nav-btn" onclick="location.href='meetings.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Réunions
+      </button>
+      <button class="nav-btn" onclick="location.href='reports.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Rapports Excel
+      </button>
+      <div class="nav-section" style="margin-top:10px">COMPTE</div>
+      <button class="nav-btn active" onclick="location.href='profile.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        Mon Profil
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="nav-btn" onclick="logout()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Déconnexion
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-area">
+    <header class="topbar">
+      <div class="topbar-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Rechercher...">
+      </div>
+      <div class="topbar-right">
+        <div class="user-info">
+          <div class="avatar" id="userAvatar">JD</div>
+          <div>
+            <div class="user-name" id="userName">—</div>
+            <div class="user-role">Directeur</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="pages">
+      <div class="page active">
+
+        <div class="page-header">
+          <div>
+            <h1>Mon Profil</h1>
+            <p>Gérez vos informations personnelles et paramètres du compte</p>
+          </div>
+        </div>
+
+        <!-- Hero -->
+        <div class="profile-hero">
+          <div class="hero-avatar" id="heroAvatar">JD</div>
+          <div class="hero-info">
+            <div class="hero-name" id="heroName">—</div>
+            <div class="hero-role">Directeur — StaffHub</div>
+            <div class="hero-badges">
+              <span class="hero-badge green">● Actif</span>
+              <span class="hero-badge" id="heroEmail">—</span>
+              <span class="hero-badge">Accès complet</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- KPIs -->
+        <div class="kpi-row">
+          <div class="kpi-card">
+            <div class="kpi-val" style="color:var(--primary)" id="kpi-emp">—</div>
+            <div class="kpi-label">Employés gérés</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-val" style="color:var(--green)" id="kpi-active">—</div>
+            <div class="kpi-label">Employés actifs</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-val" style="color:var(--orange)" id="kpi-pending">—</div>
+            <div class="kpi-label">Demandes en attente</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-val" style="color:var(--purple)" id="kpi-meetings">—</div>
+            <div class="kpi-label">Réunions planifiées</div>
+          </div>
+        </div>
+
+        <!-- Info + Activité -->
+        <div class="info-grid">
+          <!-- Informations personnelles -->
+          <div class="info-section">
+            <div class="info-section-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              Informations Personnelles
+            </div>
+            <div class="info-row"><span class="info-label">Prénom</span><span class="info-val" id="inf-first">—</span></div>
+            <div class="info-row"><span class="info-label">Nom</span><span class="info-val" id="inf-last">—</span></div>
+            <div class="info-row"><span class="info-label">Email</span><span class="info-val blue" id="inf-email">—</span></div>
+            <div class="info-row"><span class="info-label">Rôle</span><span class="info-val">Directeur</span></div>
+            <div class="info-row"><span class="info-label">Niveau d'accès</span><span class="info-val green">Administrateur</span></div>
+          </div>
+
+          <!-- Sécurité -->
+          <div class="info-section">
+            <div class="info-section-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Sécurité & Accès
+            </div>
+            <div class="info-row"><span class="info-label">Clé secrète</span><span class="info-val" id="inf-key">••••••••</span></div>
+            <div class="info-row"><span class="info-label">Mot de passe</span><span class="info-val">••••••••</span></div>
+            <div class="info-row"><span class="info-label">Statut session</span><span class="info-val green">● Connecté</span></div>
+            <div class="info-row"><span class="info-label">Type de compte</span><span class="info-val blue">Direction</span></div>
+            <div class="info-row"><span class="info-label">Permissions</span><span class="info-val green">Lecture + Écriture</span></div>
+          </div>
+        </div>
+
+        <!-- Formulaire édition profil -->
+        <div class="edit-section">
+          <div class="edit-title">Modifier mes informations</div>
+          <div class="edit-sub">Mettez à jour vos coordonnées. La clé secrète et l'email ne peuvent pas être modifiés ici.</div>
+          <div class="edit-grid">
+            <div class="field-group">
+              <label>Prénom</label>
+              <input type="text" id="edit-first" placeholder="Prénom">
+            </div>
+            <div class="field-group">
+              <label>Nom</label>
+              <input type="text" id="edit-last" placeholder="Nom">
+            </div>
+            <div class="field-group">
+              <label>Email</label>
+              <input type="text" id="edit-email" disabled>
+            </div>
+            <div class="field-group">
+              <label>Clé secrète</label>
+              <input type="text" id="edit-key" disabled>
+            </div>
+            <div class="field-group">
+              <label>Nouveau mot de passe</label>
+              <input type="password" id="edit-pass" placeholder="Laisser vide pour ne pas changer">
+            </div>
+            <div class="field-group">
+              <label>Confirmer le mot de passe</label>
+              <input type="password" id="edit-pass2" placeholder="Confirmez le mot de passe">
+            </div>
+          </div>
+          <div class="edit-actions">
+            <button class="btn btn-outline" onclick="resetForm()">Annuler</button>
+            <button class="btn btn-primary" onclick="saveProfile()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              Sauvegarder
+            </button>
+          </div>
+        </div>
+
+       
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const user = JSON.parse(sessionStorage.getItem('user') || '{}')
+if (!user.email) { location.href = '../shared/login.html' }
+
+function logout () { sessionStorage.clear(); location.href = '../shared/login.html' }
+
+function toast (msg, type = 'info') {
+  const el = document.getElementById('toast')
+  el.textContent = msg; el.className = 'show-' + type
+  setTimeout(() => el.className = '', 3200)
+}
+
+// ── Remplir les infos ────────────────────────────────────────
+function fillProfile () {
+  const initials = (user.firstName?.[0] || '') + (user.lastName?.[0] || '')
+  document.getElementById('userAvatar').textContent = initials
+  document.getElementById('heroAvatar').textContent = initials
+  document.getElementById('heroName').textContent   = user.firstName + ' ' + user.lastName
+  document.getElementById('heroEmail').textContent  = user.email
+  document.getElementById('userName').textContent   = user.firstName + ' ' + user.lastName
+
+  document.getElementById('inf-first').textContent = user.firstName
+  document.getElementById('inf-last').textContent  = user.lastName
+  document.getElementById('inf-email').textContent = user.email
+  document.getElementById('inf-key').textContent   = user.secretKey || '••••••••'
+
+  document.getElementById('edit-first').value = user.firstName || ''
+  document.getElementById('edit-last').value  = user.lastName  || ''
+  document.getElementById('edit-email').value = user.email     || ''
+  document.getElementById('edit-key').value   = user.secretKey || ''
+}
+
+function resetForm () {
+  document.getElementById('edit-first').value = user.firstName || ''
+  document.getElementById('edit-last').value  = user.lastName  || ''
+  document.getElementById('edit-pass').value  = ''
+  document.getElementById('edit-pass2').value = ''
+}
+
+async function saveProfile () {
+  const first = document.getElementById('edit-first').value.trim()
+  const last  = document.getElementById('edit-last').value.trim()
+  const pass  = document.getElementById('edit-pass').value
+  const pass2 = document.getElementById('edit-pass2').value
+
+  if (!first || !last) return toast('Prénom et nom obligatoires.', 'error')
+  if (pass && pass !== pass2) return toast('Les mots de passe ne correspondent pas.', 'error')
+  if (pass && pass.length < 6) return toast('Le mot de passe doit faire au moins 6 caractères.', 'error')
+
+  const res = await window.api.updateDirectorProfile({
+    id: user.id,
+    firstName: first,
+    lastName: last,
+    password: pass || null
+  })
+
+  if (res.ok) {
+    user.firstName = first
+    user.lastName  = last
+    sessionStorage.setItem('user', JSON.stringify(user))
+    fillProfile()
+    document.getElementById('edit-pass').value  = ''
+    document.getElementById('edit-pass2').value = ''
+    toast('Profil mis à jour avec succès !', 'success')
+  } else {
+    toast(res.message || 'Erreur lors de la mise à jour.', 'error')
+  }
+}
+
+
+ 
+
+fillProfile()
+loadStats()
+</script>
+</body>
+</html>
