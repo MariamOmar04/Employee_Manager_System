@@ -61,15 +61,15 @@
         <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:24px">
           <div class="stat-card">
             <div><div class="stat-label">Total</div><div class="stat-val" id="s-total">—</div></div>
-            <div class="stat-icon icon-blue">📅</div>
+            <div class="stat-icon icon-blue"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3953d5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar-minus2-icon lucide-calendar-minus-2"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M10 16h4"/></svg></div>
           </div>
           <div class="stat-card">
             <div><div class="stat-label">À Venir</div><div class="stat-val" id="s-upcoming" style="color:var(--green)">—</div></div>
-            <div class="stat-icon icon-green">⏳</div>
+            <div class="stat-icon icon-green"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#328f3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hourglass-icon lucide-hourglass"><path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></svg></div>
           </div>
           <div class="stat-card">
             <div><div class="stat-label">Passées</div><div class="stat-val" id="s-past" style="color:var(--text-sub)">—</div></div>
-            <div class="stat-icon icon-orange">✅</div>
+            <div class="stat-icon icon-orange"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFA500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-check-icon lucide-user-check"><path d="m16 11 2 2 4-4"/><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
           </div>
         </div>
 
@@ -125,14 +125,14 @@ async function loadMeetings () {
     const participants = next.participants ? next.participants.split(',').map(p=>p.trim()) : []
     bannerEl.innerHTML = `
       <div style="background:linear-gradient(135deg,#1e5fba,#3b82f6);border-radius:var(--radius);padding:28px;color:#fff;margin-bottom:18px">
-        <div style="font-size:12px;opacity:.7;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">🔔 Prochaine Réunion</div>
+        <div style="font-size:12px;opacity:.7;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px"><svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#FFFF00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell-ring-icon lucide-bell-ring"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M22 8c0-2.3-.8-4.3-2-6"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/><path d="M4 2C2.8 3.7 2 5.7 2 8"/></svg> Prochaine Réunion</div>
         <div style="font-size:22px;font-weight:800;margin-bottom:8px">${next.title}</div>
         <div style="opacity:.85;font-size:14px;margin-bottom:16px">${next.objective||'—'}</div>
         <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:14px">
-          <div>📅 <strong>${fmtDateFull(next.meetingDate)}</strong></div>
-          <div>⏰ <strong>${next.startTime}</strong> · ${next.duration} min</div>
-          ${next.location ? `<div>📍 <strong>${next.location}</strong></div>` : ''}
-          <div>👥 <strong>${participants.length} participant(s)</strong></div>
+          <div><svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar-minus2-icon lucide-calendar-minus-2"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M10 16h4"/></svg> <strong>${fmtDateFull(next.meetingDate)}</strong></div>
+          <div><svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock8-icon lucide-clock-8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l-4 2"/></svg> <strong>${next.startTime}</strong> · ${next.duration} min</div>
+          ${next.location ? `<div><svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin-icon lucide-map-pin"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg> <strong>${next.location}</strong></div>` : ''}
+          <div><svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-icon lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg> <strong>${participants.length} participant(s)</strong></div>
         </div>
       </div>
     `

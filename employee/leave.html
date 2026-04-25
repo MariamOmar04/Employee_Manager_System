@@ -17,7 +17,7 @@
     .leave-dates{ font-size:13px; color:var(--text-sub); margin-bottom:10px; }
     .leave-reason{ font-size:13px; color:var(--text-sub); font-style:italic; }
     .leave-note { margin-top:10px; padding:10px 14px; background:var(--primary-lt); border-radius:9px; font-size:13px; color:var(--primary); font-weight:500; }
-    .tab-bar    { display:flex; gap:8px; margin-bottom:22px; }
+    .tab-bar    { display:flex; gap:8px; margin-bottom:22px;margin-top:10px; }
     .tab-btn    { padding:8px 20px; border-radius:20px; border:1.5px solid var(--border); background:var(--bg); font-family:inherit; font-size:13px; font-weight:600; cursor:pointer; transition:all .15s; }
     .tab-btn.active { background:var(--primary); border-color:var(--primary); color:#fff; }
   </style>
@@ -75,24 +75,25 @@
         <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:24px">
           <div class="stat-card">
             <div><div class="stat-label">En attente</div><div class="stat-val" id="s-pending" style="color:var(--orange)">—</div></div>
-            <div class="stat-icon icon-orange">⏳</div>
+            <div class="stat-icon icon-orange"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFA500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hourglass-icon lucide-hourglass"><path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></svg></div>
           </div>
           <div class="stat-card">
             <div><div class="stat-label">Approuvés</div><div class="stat-val" id="s-approved" style="color:var(--green)">—</div></div>
-            <div class="stat-icon icon-green">✅</div>
+            <div class="stat-icon icon-green"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#328f3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-check-icon lucide-user-check"><path d="m16 11 2 2 4-4"/><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+          </div>
           </div>
           <div class="stat-card">
             <div><div class="stat-label">Refusés</div><div class="stat-val" id="s-refused" style="color:var(--red)">—</div></div>
-            <div class="stat-icon icon-purple">❌</div>
+            <div class="stat-icon icon-purple"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#dc3545" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
           </div>
         </div>
 
         <!-- Onglets -->
         <div class="tab-bar">
           <button class="tab-btn active" onclick="setTab('all',this)">Tous</button>
-          <button class="tab-btn" onclick="setTab('Pending',this)">⏳ En attente</button>
-          <button class="tab-btn" onclick="setTab('Approved',this)">✅ Approuvés</button>
-          <button class="tab-btn" onclick="setTab('Refused',this)">❌ Refusés</button>
+          <button class="tab-btn" onclick="setTab('Pending',this)"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FFA500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hourglass-icon lucide-hourglass"><path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></svg> En attente</button>
+          <button class="tab-btn" onclick="setTab('Approved',this)"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#328f3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-check-icon lucide-user-check"><path d="m16 11 2 2 4-4"/><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Approuvés</button>
+          <button class="tab-btn" onclick="setTab('Refused',this)"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#dc3545" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Refusés</button>
         </div>
 
         <div id="leavesList"></div>
